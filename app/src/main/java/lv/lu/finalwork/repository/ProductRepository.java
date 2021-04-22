@@ -1,18 +1,18 @@
 package lv.lu.finalwork.repository;
 
-import lv.lu.finalwork.models.Product;
+import lv.lu.finalwork.models.repository.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@org.springframework.stereotype.Repository
 public class ProductRepository implements Repository<Product> {
 
     private final Map<Long, Product> repository;
-    private Long idCounter = 0L;
+    private Long idCounter = 1L;
 
-    public ProductRepository() {
-        this.repository = new HashMap<>();
-    }
-
+    @Autowired
     public ProductRepository(Map<Long, Product> repository) {
         this.repository = repository;
     }

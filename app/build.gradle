@@ -24,9 +24,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.0-jre'
+
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.6'
+
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'lv.lu.App'
+    mainClass = 'lv.lu.finalwork.ProductAccountingApplication'
 }
