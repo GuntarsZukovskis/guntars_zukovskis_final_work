@@ -3,11 +3,13 @@ package lv.lu.finalwork.service;
 import lv.lu.finalwork.models.repository.Product;
 import lv.lu.finalwork.models.ui.ProductInputData;
 import lv.lu.finalwork.repository.ProductRepository;
+import lv.lu.finalwork.validation.ProductValidator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -30,6 +32,8 @@ public class ProductServiceTest {
     private ProductRepository repository;
     @Mock
     private ProductMapper mapper;
+    @Mock
+    private ProductValidator validator;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -41,10 +45,13 @@ public class ProductServiceTest {
 
         given(mapper.mapFrom(inputData)).willReturn(product);
         service.save(inputData);
-        verify(repository).save(product);
-        verify(mapper).mapFrom(inputData);
 
-        verifyNoMoreInteractions(mapper, repository);
+        InOrder inOrder = Mockito.inOrder(mapper, repository, validator);
+        inOrder.verify(validator).validate(inputData);
+        inOrder.verify(mapper).mapFrom(inputData);
+        inOrder.verify(repository).save(product);
+
+        verifyNoMoreInteractions(mapper, repository, validator);
     }
 
     @Test
